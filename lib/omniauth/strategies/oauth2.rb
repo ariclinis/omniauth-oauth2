@@ -18,10 +18,11 @@ module OmniAuth
         OmniAuth::Strategy.included(subclass)
       end
 
-      args %i[client_id client_secret]
+      args %i[client_id client_secret grant_type]
 
       option :client_id, nil
       option :client_secret, nil
+      option :grant_type, nil
       option :client_options, {}
       option :authorize_params, {}
       option :authorize_options, %i[scope state]
@@ -44,7 +45,7 @@ module OmniAuth
       attr_accessor :access_token
 
       def client
-        ::OAuth2::Client.new(options.client_id, options.client_secret, deep_symbolize(options.client_options))
+        ::OAuth2::Client.new(options.client_id, options.client_secret, options.grant_type, deep_symbolize(options.client_options))
       end
 
       credentials do
